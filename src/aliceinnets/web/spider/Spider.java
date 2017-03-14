@@ -67,13 +67,13 @@ public class Spider {
 		if(crawlingPolicy != null) {
 			this.crawlingPolicy = crawlingPolicy;
 		} else {
-			crawlingPolicy = new CrawlingOnce(this);
+			this.crawlingPolicy = new CrawlingOnce(this);
 		}
 		
 		if(collectingPolicy != null) {
 			this.collectingPolicy = collectingPolicy;
 		} else {
-			collectingPolicy = new CollectingAll();
+			this.collectingPolicy = new CollectingAll();
 		}
 		
 	}
