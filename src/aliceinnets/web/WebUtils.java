@@ -28,11 +28,16 @@ public class WebUtils {
 	
 	
 	public final static String saveUrl(String url, String savePath) throws IOException {
-		return saveUrl(url, savePath, bufferSize, timeout, userAgent);
+		return saveUrl(url, savePath, null, bufferSize, timeout, userAgent);
 	}
 	
 	
-	public final static String saveUrl(String url, String savePath, int bufferSize, int timeout, String userAgent) throws IOException {
+	public final static String saveUrl(String url, String savePath, String saveFileName) throws IOException {
+		return saveUrl(url, savePath, saveFileName, bufferSize, timeout, userAgent);
+	}
+	
+	
+	public final static String saveUrl(String url, String savePath, String saveFileName, int bufferSize, int timeout, String userAgent) throws IOException {
 		HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
 		connection.setConnectTimeout(timeout);
 		connection.setReadTimeout(timeout);
@@ -67,7 +72,12 @@ public class WebUtils {
 
 			// opens input stream from the HTTP connection
 			InputStream inputStream = connection.getInputStream();
-			String saveFilePath = savePath + File.separator + fileName;
+			String saveFilePath;
+			if(saveFileName != null && !saveFileName.equals("")) {
+				saveFilePath = savePath + File.separator + saveFileName;
+			} else {
+				saveFilePath = savePath + File.separator + fileName;
+			}
 			
 			// opens an output stream to save into file
 			FileOutputStream outputStream = new FileOutputStream(saveFilePath);
