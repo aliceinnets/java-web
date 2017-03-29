@@ -17,7 +17,7 @@ import aliceinnets.web.spider.policy.CrawlingOnce;
  * This class crawls web pages link to link and collects urls  
  * under {@link CrawlingPolicy} and {@link CollectingPolicy}.
  * 
- * @author alice&lt;aliceinnets@gmail.com&gt;
+ * @author alice &lt;aliceinnets[at]gmail.com&gt;
  *
  */
 public class Spider {
