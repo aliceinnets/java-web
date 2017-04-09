@@ -1,8 +1,10 @@
 package aliceinnets.web.spider.policy;
 
+import org.jsoup.nodes.Document;
+
 import aliceinnets.util.OneLiners;
 
-public class CrawlingUrlContainsWord implements CrawlingPolicy {
+public class CollectingUrlContainsWord implements CollectingPolicy {
 	
 	private String word;
 	private int minRepetitions;
@@ -11,12 +13,12 @@ public class CrawlingUrlContainsWord implements CrawlingPolicy {
 	private boolean wholeWord;
 	private boolean excludeNonWordChars;
 	
-	public CrawlingUrlContainsWord(String word) {
+	public CollectingUrlContainsWord(String word) {
 		this(word, 1);
 	}
 	
 	
-	public CrawlingUrlContainsWord(String word, int minRepetitions) {
+	public CollectingUrlContainsWord(String word, int minRepetitions) {
 		this.word = word;
 		this.minRepetitions = minRepetitions;
 		
@@ -27,7 +29,8 @@ public class CrawlingUrlContainsWord implements CrawlingPolicy {
 	
 
 	@Override
-	public boolean shouldCrawl(String url) {
+	public boolean shouldCollect(Document document) {
+		String url = document.baseUri();
 		if(OneLiners.countWord(url, word, caseSensitive, wholeWord, excludeNonWordChars) >= minRepetitions) {
 			return true;
 		} else {
@@ -84,5 +87,5 @@ public class CrawlingUrlContainsWord implements CrawlingPolicy {
 	public void setExcludeNonWordChars(boolean excludeNonWordChars) {
 		this.excludeNonWordChars = excludeNonWordChars;
 	}
-	
+
 }

@@ -21,13 +21,17 @@ public class CollectingTextContainsWord implements CollectingPolicy {
 	public CollectingTextContainsWord(String word, int minRepetitions) {
 		this.word = word;
 		this.minRepetitions = minRepetitions;
+		
+		this.caseSensitive = false;
+		this.wholeWord = false;
+		this.excludeNonWordChars = false;
 	}
 	
 
 	@Override
 	public boolean shouldCollect(Document document) {
 		String text = document.text();
-		if(OneLiners.countWord(text, word, caseSensitive, wholeWord, excludeNonWordChars) > minRepetitions) {
+		if(OneLiners.countWord(text, word, caseSensitive, wholeWord, excludeNonWordChars) >= minRepetitions) {
 			return true;
 		} else {
 			return false;

@@ -38,6 +38,11 @@ public class Spider {
 	CollectingPolicy collectingPolicy;
 	
 	
+	public Spider() {
+		this(null, null, null);
+	}
+	
+	
 	/**
 	 * 
 	 * 
@@ -93,17 +98,12 @@ public class Spider {
 	}
 	
 	
-	public String crawl() {
-		if(pagesToVisit.isEmpty()) {
-			System.out.println("No pages to visit");
-			return null;
-		}
-		
-		return crawl(pagesToVisit.remove(0));
+	public void crawl() {
+		crawl(1);
 	}
 	
 	
-	public String crawl(String url) {
+	public void crawl(String url) {
 		try {
 			Document document = Jsoup.connect(url)
 //					.header("Accept-Encoding", "gzip, deflate")
@@ -111,6 +111,9 @@ public class Spider {
 					.maxBodySize(maxBodySize)
 					.timeout(timeout)
 					.get();
+			
+			pagesVisited.add(url);
+			System.out.println(String.format("visited page, %s", url));
 			
 			Elements linksOnPage = document.select("a[href]");
 			List<String> links = new LinkedList<String>();
@@ -126,20 +129,12 @@ public class Spider {
 			
 			if(collectingPolicy.shouldCollect(document)) {
 				pagesCollected.add(url);
-				
-				pagesVisited.add(url);
-				System.out.println(String.format("visited page, %s", url));
-				return url;
-			} else {
-				pagesVisited.add(url);
-				System.out.println(String.format("visited page, %s", url));
-				return null;
 			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			pagesFailedToVisit.add(url);
 			System.out.println(String.format("failed to visit page, %s", url));
-			return null;
 		}
 	}
 
